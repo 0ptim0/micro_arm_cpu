@@ -1,10 +1,20 @@
-.PHONY: reg_file inst_mem
+.PHONY: reg_file inst_mem alu cpu
+
+SRC_REG_FILE=$(PWD)/../components/reg_file.sv
+SRC_INST_MEM=$(PWD)/../components/inst_mem.sv
+SRC_ALU=$(PWD)/../components/alu.sv
+SRC_CPU+=$(PWD)/../top_module.sv
+INC_CPU=$(PWD)/../types
 
 reg_file:
-	$(MAKE) sim MODULE=reg_file TESTCASE=reg_file VERILOG_SOURCES=$(shell pwd)/../components/reg_file.sv
+	$(MAKE) sim MODULE=reg_file TESTCASE=reg_file VERILOG_SOURCES=$(SRC_REG_FILE)
 inst_mem:
-	$(MAKE) sim MODULE=inst_mem TESTCASE=inst_mem VERILOG_SOURCES=$(shell pwd)/../components/inst_mem.sv
+	$(MAKE) sim MODULE=inst_mem TESTCASE=inst_mem VERILOG_SOURCES=$(SRC_INST_MEM)
+alu:
+	$(MAKE) sim MODULE=alu TESTCASE=alu VERILOG_SOURCES=$(SRC_ALU)
+cpu:
+	$(MAKE) sim MODULE=top_module TESTCASE=top_module VERILOG_SOURCES=$(SRC_CPU) VERILOG_SOURCES+=$(SRC_REG_FILE) VERILOG_SOURCES+=$(SRC_INST_MEM) VERILOG_SOURCES+=$(SRC_ALU) VERILOG_INCLUDE_DIRS+=$(INC_CPU)
 
-all: reg_file | inst_mem
+all: reg_file | inst_mem | alu
 
 include $(shell cocotb-config --makefiles)/Makefile.sim

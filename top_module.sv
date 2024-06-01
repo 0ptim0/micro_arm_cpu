@@ -1,13 +1,13 @@
-`timescale 1ns/1ns
+`timescale 1ns / 1ns
+`include "inst.sv"
 
-module top_module #(
-    parameter INST_MEMORY_SIZE = 1024
-) (
+module top_module (
     input clk,
     input reset
 );
 
   reg [31:0] pc;
+  data_inst_t inst;
 
   always_ff @(posedge clk or posedge reset) begin
     if (reset) begin
@@ -17,6 +17,9 @@ module top_module #(
     end
   end
 
-
+  inst_mem inst_mem_0 (
+      .a (pc),
+      .rd(inst)
+  );
 
 endmodule
