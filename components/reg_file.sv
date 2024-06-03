@@ -7,7 +7,7 @@ module reg_file (
     input [3:0] a2,
     input [3:0] a3,
     input [31:0] wd3,
-    input [31:0] we3,
+    input we3,
     input [31:0] rpc,
     output [31:0] rd1,
     output [31:0] rd2
@@ -37,8 +37,8 @@ module reg_file (
           // TODO: handling writing to the PC reg
         end
       end else begin
-        rd1_i <= a1 == 32'd15 ? rpc + 32'd8 : regs[a1];
-        rd2_i <= a2 == 32'd15 ? rpc + 32'd8 : regs[a2];
+        rd1_i <= a1 == 32'd15 ? rpc : regs[a1];
+        rd2_i <= a2 == 32'd15 ? rpc : regs[a2];
       end
     end
   end
