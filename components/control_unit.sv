@@ -17,7 +17,7 @@ module control_unit (
 );
 
   wire reg_we_i;
-  wire cond_ex_i;
+  reg  cond_ex_i;
 
   /**********  PC Logic **********/
   wire pc_ctrl_i = (op == OP_CODE_B) || (rd == REG_NUM_PC && reg_we_i);
@@ -37,7 +37,7 @@ module control_unit (
   reg [1:0] flag_w_i;
   always_comb begin
     if (alu_op_i) begin
-      case(funct[4:1])
+      case (funct[4:1])
         FUNCT_4_1_ADD: begin
           alu_ctrl_i <= ALU_ADD_CODE;
           if (funct[0]) flag_w_i <= FLAGW_1_0_UPDATE_NZCV;
@@ -61,15 +61,39 @@ module control_unit (
       endcase
     end else begin
       alu_ctrl_i <= ALU_ADD_CODE;
-      flag_w_i <= FLAGW_1_0_IDLE;
+      flag_w_i   <= FLAGW_1_0_IDLE;
     end
   end
-  assign alu_ctrl_i[0] = 
 
   /********** Conditional Check **********/
+  wire nero, zero, carry, overflow;
+  assign {neg, zero, carry, overflow} = alu_flags;
+
+  always_comb begin
+    case (Cond)
+      4'b0000: cond_ex_i = zero;
+      4'b0001: cond_ex_i = ~zero;
+      4'b0010: cond_ex_i = carry;
+      4'b0011: cond_ex_i = ~carry;
+      4'b0100: cond_ex_i = neg;
+      4'b0101: cond_ex_i = ~neg;
+      4'b0110: cond_ex_i = overflow;
+      4'b0111: cond_ex_i = ~overflow;
+      4'b1000: cond_ex_i = carry & ~zero;
+      4'b1001: cond_ex_i = ~(carry & ~zero);
+      4'b1010: cond_ex_i = ge;
+      4'b1011: cond_ex_i = ~ge;
+      4'b1100: cond_ex_i = ~zero & ge;
+      4'b1101: cond_ex_i = ~(~zero & ge);
+      4'b1110: cond_ex_i = 1'b1;
+      default: cond_ex_i = 1'bx;
+    endcase
+  end
+
   assign pc_ctrl = cond_ex_i & pc_ctrl_i;
   assign reg_we = cond_ex_i & reg_we_i;
   assign mem_we = cond_ex_i & reg_we_i;
+
 
   assign mem_to_reg = mem_to_reg_i;
   assign alu_ctrl = alu_ctrl_i;

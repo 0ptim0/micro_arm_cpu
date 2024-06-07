@@ -28,6 +28,12 @@ parameter ALU_SUB_CODE = 2'd1;
 parameter ALU_AND_CODE = 2'd2;
 parameter ALU_ORR_CODE = 2'd3;
 
+/******** Condition Flag Positions ********/
+parameter COND_N = 'd3;
+parameter COND_Z = 'd2;
+parameter COND_C = 'd1;
+parameter COND_V = 'd0;
+
 /******** Memory Instruction ********/
 typedef struct packed {
   bit [3:0] cond;
