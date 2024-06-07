@@ -17,8 +17,6 @@ module reg_file (
   localparam PC_REG_ADDR = 15;
 
   reg [31:0] regs[NUM_OF_REGS-2:0];
-  reg [31:0] rd1_i;
-  reg [31:0] rd2_i;
 
   integer i;
 
@@ -27,23 +25,16 @@ module reg_file (
       for (i = 0; i < NUM_OF_REGS; i = i + 1) begin
         regs[i] <= 32'd0;
       end
-      rd1_i <= 32'd0;
-      rd2_i <= 32'd0;
     end else begin
       if (we3) begin
         if (a1 < 32'd15) begin
           regs[a3] <= wd3;
-        end else begin
-          // TODO: handling writing to the PC reg
         end
-      end else begin
-        rd1_i <= a1 == 32'd15 ? rpc : regs[a1];
-        rd2_i <= a2 == 32'd15 ? rpc : regs[a2];
       end
     end
   end
 
-  assign rd1 = rd1_i;
-  assign rd2 = rd2_i;
+  assign rd1 = a1 == 32'd15 ? rpc : regs[a1];
+  assign rd2 = a2 == 32'd15 ? rpc : regs[a2];
 
 endmodule

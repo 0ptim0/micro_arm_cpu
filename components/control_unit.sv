@@ -27,9 +27,9 @@ module control_unit (
   /********** Main Decoder **********/
   wire mem_to_reg_i = (op == OP_CODE_MEM) && (funct[0] == FUNCT_0_LDR);
   wire mem_we_i = (op == OP_CODE_MEM) && (funct[0] == FUNCT_0_STR);
-  wire alu_src_i = (op == OP_CODE_DP) && (funct[5] != FUNCT_5_DP_REG);
+  wire alu_src_i = !((op == OP_CODE_DP) && (funct[5] == FUNCT_5_DP_REG));
   wire [1:0] imm_src_i = op;
-  wire imm_reg_we_i = (op == OP_CODE_DP) || (op == OP_CODE_MEM && funct[0] == FUNCT_0_LDR);
+  assign reg_we_i = (op == OP_CODE_DP) || (op == OP_CODE_MEM && funct[0] == FUNCT_0_LDR);
   wire [1:0] reg_src_i = {(op == OP_CODE_MEM && funct[0] == FUNCT_0_STR), (op == OP_CODE_B)};
   wire alu_op_i = (op == OP_CODE_DP);
 
@@ -61,7 +61,7 @@ module control_unit (
         end
         default: begin
           alu_ctrl_i = ALU_ADD_CODE;
-          flag_w_i = FLAGW_1_0_IDLE;
+          flag_w_i   = FLAGW_1_0_IDLE;
         end
       endcase
     end else begin
@@ -98,7 +98,7 @@ module control_unit (
 
   assign pc_ctrl = cond_ex_i & pc_ctrl_i;
   assign reg_we = cond_ex_i & reg_we_i;
-  assign mem_we = cond_ex_i & reg_we_i;
+  assign mem_we = cond_ex_i & mem_we_i;
 
 
   assign mem_to_reg = mem_to_reg_i;

@@ -46,7 +46,7 @@ sim_compile:
 	vlog -sv $(SRC_SIM) +incdir+$(INC_CPU)
 
 modelsim: sim_compile
-	vsim -gui -suppress 10000 -quiet work.top_module_tb -do "top_module_tb.do" -do "run -all"\
+	vsim -default_radix hexadecimal -gui -suppress 10000 -quiet work.top_module_tb -do "top_module_tb.do" -do "run -all"\
 
 
 

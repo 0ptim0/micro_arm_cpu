@@ -39,59 +39,59 @@ parameter COND_V = 'd0;
 
 /******** Memory Instruction ********/
 typedef struct packed {
-  bit [3:0] cond;
-  bit [1:0] op;
-  bit [5:0] funct;
-  bit [3:0] rn;
-  bit [3:0] rd;
+  logic [3:0] cond;
+  logic [1:0] op;
+  logic [5:0] funct;
+  logic [3:0] rn;
+  logic [3:0] rd;
   union packed {
-    struct packed {bit [11:0] imm12;} immediate;
+    struct packed {logic [11:0] imm12;} immediate;
     struct packed {
-      bit [4:0] shamt5;
-      bit [1:0] sh;
-      bit [0:0] one;
-      bit [3:0] rm;
+      logic [4:0] shamt5;
+      logic [1:0] sh;
+      logic [0:0] one;
+      logic [3:0] rm;
     } register;
   } src2;
 } mem_inst_t;
 
 /******** Data Instruction ********/
 typedef struct packed {
-  bit [3:0] cond;
-  bit [1:0] op;
-  bit [5:0] funct;
-  bit [3:0] rn;
-  bit [3:0] rd;
+  logic [3:0] cond;
+  logic [1:0] op;
+  logic [5:0] funct;
+  logic [3:0] rn;
+  logic [3:0] rd;
   union packed {
     struct packed {
-      bit [3:0] rot;
-      bit [7:0] imm8;
+      logic [3:0] rot;
+      logic [7:0] imm8;
     } immediate;
     struct packed {
-      bit [4:0] shamt5;
-      bit [1:0] sh;
-      bit [0:0] zero;
-      bit [3:0] rm;
+      logic [4:0] shamt5;
+      logic [1:0] sh;
+      logic [0:0] zero;
+      logic [3:0] rm;
     } register;
   } src2;
 } data_inst_t;
 
 /******** Branch Instruction ********/
 typedef struct packed {
-  bit [3:0]  cond;
-  bit [1:0]  op;
-  bit [1:0]  funct;
-  bit [23:0] imm24;
+  logic [3:0]  cond;
+  logic [1:0]  op;
+  logic [1:0]  funct;
+  logic [23:0] imm24;
 } b_inst_t;
 
 /******** Common Control Fields ********/
 typedef struct packed {
-  bit [3:0]  cond;
-  bit [1:0]  op;
-  bit [5:0]  funct;
-  bit [3:0]  rn;
-  bit [3:0]  rd;
-  bit [11:0] not_used;
+  logic [3:0]  cond;
+  logic [1:0]  op;
+  logic [5:0]  funct;
+  logic [3:0]  rn;
+  logic [3:0]  rd;
+  logic [11:0] not_used;
 } ctrl_inst_t;
 
 /******** General Instruction Struct ********/
@@ -102,4 +102,4 @@ typedef union packed {
   ctrl_inst_t ctrl;
 } inst_t;
 
-`endif // INST_VH
+`endif  // INST_VH

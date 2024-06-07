@@ -6,11 +6,11 @@ module top_module (
     input wire clk,
     input wire reset,
     output wire [31:0] mem_pc,
-    input wire [31:0] mem_inst
+    input inst_t inst
 );
 
   /************* Current Instruction *************/
-  inst_t inst = mem_inst;
+  //   inst_t inst = mem_inst;
 
   /************* Control Unit *************/
   wire pc_ctrl;
@@ -20,7 +20,7 @@ module top_module (
   wire alu_src;
   wire [1:0] imm_src;
   wire reg_we;
-  wire [1:0] reg_src = 2'b0;
+  wire [1:0] reg_src;
   wire [3:0] alu_flags;
 
   control_unit u_control_unit (
@@ -42,7 +42,7 @@ module top_module (
   /************* Data Memory Feedback Multiplexer *************/
   wire [31:0] alu_out;
   wire [31:0] data_mem_out;
-  wire [31:0] data_mem_out_mux = mem_to_reg ? alu_out : data_mem_out;
+  wire [31:0] data_mem_out_mux = mem_to_reg ? data_mem_out : alu_out;
 
   /************* Program Counter *************/
   wire [31:0] pc;
@@ -85,8 +85,8 @@ module top_module (
   /************* Extend Immediates *************/
   wire [31:0] ext_imm_out;
   wire [31:0] ext_imm_in  [2:0];
-  assign ext_imm_in[0] = {{24{1'b0}}, inst.data.src2.immediate.imm8};
-  assign ext_imm_in[1] = {{20{1'b0}}, inst.mem.src2.immediate.imm12};
+  assign ext_imm_in[0] = {{24{inst.data.src2.immediate.imm8[7]}}, inst.data.src2.immediate.imm8};
+  assign ext_imm_in[1] = {{20{inst.mem.src2.immediate.imm12[11]}}, inst.mem.src2.immediate.imm12};
   assign ext_imm_in[2] = {{6{inst.b.imm24[23]}}, inst.b.imm24, 2'b00};
 
   mux #(
