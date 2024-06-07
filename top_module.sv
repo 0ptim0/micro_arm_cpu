@@ -4,11 +4,13 @@
 
 module top_module (
     input wire clk,
-    input wire reset
+    input wire reset,
+    output wire [31:0] mem_pc,
+    input wire [31:0] mem_inst
 );
 
   /************* Current Instruction *************/
-  inst_t inst;
+  inst_t inst = mem_inst;
 
   /************* Control Unit *************/
   wire pc_ctrl;
@@ -44,6 +46,7 @@ module top_module (
 
   /************* Program Counter *************/
   wire [31:0] pc;
+  assign mem_pc = pc;
 
   pc u_pc (
       .clk  (clk),
@@ -54,10 +57,10 @@ module top_module (
   );
 
   /************* Instruction Memory *************/
-  inst_mem u_mem_inst (
-      .a (pc),
-      .rd(inst)
-  );
+  //   inst_mem u_mem_inst (
+  //       .a (pc),
+  //       .rd(inst)
+  //   );
 
   /************* CPU Registers *************/
   wire [31:0] pc_reg_file = pc + 32'd8;
