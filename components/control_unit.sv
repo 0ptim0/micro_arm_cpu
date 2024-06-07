@@ -39,29 +39,29 @@ module control_unit (
     if (alu_op_i) begin
       case (funct[4:1])
         FUNCT_4_1_ADD: begin
-          alu_ctrl_i <= ALU_ADD_CODE;
-          if (funct[0]) flag_w_i <= FLAGW_1_0_UPDATE_NZCV;
-          else flag_w_i <= FLAGW_1_0_IDLE;
+          alu_ctrl_i = ALU_ADD_CODE;
+          if (funct[0]) flag_w_i = FLAGW_1_0_UPDATE_NZCV;
+          else flag_w_i = FLAGW_1_0_IDLE;
         end
         FUNCT_4_1_SUB: begin
-          alu_ctrl_i <= ALU_SUB_CODE;
-          if (funct[0]) flag_w_i <= FLAGW_1_0_UPDATE_NZCV;
-          else flag_w_i <= FLAGW_1_0_IDLE;
+          alu_ctrl_i = ALU_SUB_CODE;
+          if (funct[0]) flag_w_i = FLAGW_1_0_UPDATE_NZCV;
+          else flag_w_i = FLAGW_1_0_IDLE;
         end
         FUNCT_4_1_AND: begin
-          alu_ctrl_i <= ALU_AND_CODE;
-          if (funct[0]) flag_w_i <= FLAGW_1_0_UPDATE_NZ;
-          else flag_w_i <= FLAGW_1_0_IDLE;
+          alu_ctrl_i = ALU_AND_CODE;
+          if (funct[0]) flag_w_i = FLAGW_1_0_UPDATE_NZ;
+          else flag_w_i = FLAGW_1_0_IDLE;
         end
         FUNCT_4_1_ORR: begin
-          alu_ctrl_i <= ALU_ORR_CODE;
-          if (funct[0]) flag_w_i <= FLAGW_1_0_UPDATE_NZ;
-          else flag_w_i <= FLAGW_1_0_IDLE;
+          alu_ctrl_i = ALU_ORR_CODE;
+          if (funct[0]) flag_w_i = FLAGW_1_0_UPDATE_NZ;
+          else flag_w_i = FLAGW_1_0_IDLE;
         end
       endcase
     end else begin
-      alu_ctrl_i <= ALU_ADD_CODE;
-      flag_w_i   <= FLAGW_1_0_IDLE;
+      alu_ctrl_i = ALU_ADD_CODE;
+      flag_w_i   = FLAGW_1_0_IDLE;
     end
   end
 
