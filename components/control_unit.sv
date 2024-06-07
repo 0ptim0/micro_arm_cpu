@@ -58,6 +58,10 @@ module control_unit (
           if (funct[0]) flag_w_i = FLAGW_1_0_UPDATE_NZ;
           else flag_w_i = FLAGW_1_0_IDLE;
         end
+        default: begin
+          alu_ctrl_i = ALU_ADD_CODE;
+          flag_w_i = FLAGW_1_0_IDLE;
+        end
       endcase
     end else begin
       alu_ctrl_i = ALU_ADD_CODE;
@@ -66,11 +70,12 @@ module control_unit (
   end
 
   /********** Conditional Check **********/
-  wire nero, zero, carry, overflow;
+  wire neg, zero, carry, overflow, ge;
   assign {neg, zero, carry, overflow} = alu_flags;
+  assign ge = neg == overflow;
 
   always_comb begin
-    case (Cond)
+    case (cond)
       4'b0000: cond_ex_i = zero;
       4'b0001: cond_ex_i = ~zero;
       4'b0010: cond_ex_i = carry;
