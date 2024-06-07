@@ -48,8 +48,6 @@ sim_compile:
 modelsim: sim_compile
 	vsim -default_radix hexadecimal -gui -suppress 10000 -quiet work.top_module_tb -do "top_module_tb.do" -do "run -all"\
 
-
-
 # Common
 all: reg_file | inst_mem | alu | pc | control_unit | cpu | modelsim
 
