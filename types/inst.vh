@@ -1,3 +1,6 @@
+`ifndef INST_VH
+`define INST_VH
+
 /******** OP Codes ********/
 parameter OP_CODE_DP = 2'b00;
 parameter OP_CODE_MEM = 2'b01;
@@ -98,3 +101,5 @@ typedef union packed {
   b_inst_t b;
   ctrl_inst_t ctrl;
 } inst_t;
+
+`endif // INST_VH

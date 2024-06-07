@@ -2,3 +2,6 @@ __pycache__
 sim_build
 .pytest_cache
 results.xml
+work
+transcript
+vsim.wlf

@@ -1,4 +1,5 @@
 `timescale 1ns / 1ns
+`include "inst.vh"
 
 module alu (
     input [31:0] a,

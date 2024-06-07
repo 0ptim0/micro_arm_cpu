@@ -1,4 +1,5 @@
 `timescale 1ns / 1ns
+`include "inst.vh"
 
 module control_unit (
     input [3:0] cond,

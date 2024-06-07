@@ -1,10 +1,10 @@
 `timescale 1ns / 1ns
-`include "inst.sv"
+`include "inst.vh"
 `default_nettype none
 
 module top_module (
-    input clk,
-    input reset
+    input wire clk,
+    input wire reset
 );
 
   /************* Current Instruction *************/
@@ -81,7 +81,7 @@ module top_module (
 
   /************* Extend Immediates *************/
   wire [31:0] ext_imm_out;
-  wire [31:0] ext_imm_in[2:0];
+  wire [31:0] ext_imm_in  [2:0];
   assign ext_imm_in[0] = {{24{1'b0}}, inst.data.src2.immediate.imm8};
   assign ext_imm_in[1] = {{20{1'b0}}, inst.mem.src2.immediate.imm12};
   assign ext_imm_in[2] = {{6{inst.b.imm24[23]}}, inst.b.imm24, 2'b00};
